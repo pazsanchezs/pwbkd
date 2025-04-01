@@ -1,26 +1,19 @@
-package py.com.progweb.controller;
+package py.com.progweb.model;
 
 import javax.persistence.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 
-//Modelo 
 @Entity
-class DetalleVenta {
+public class DetalleVenta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDetalleVenta;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProducto")
     private Producto producto;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idVenta")
     private Venta venta;
 
@@ -35,51 +28,53 @@ class DetalleVenta {
     }
 
     // Getters y Setters
-    public Long getIdDetalleVenta() { return idDetalleVenta; }
-    public void setIdDetalleVenta(Long idDetalleVenta) { this.idDetalleVenta = idDetalleVenta; }
-
-    public Producto getProducto() { return producto; }
-    public void setProducto(Producto producto) { this.producto = producto; }
-
-    public Venta getVenta() { return venta; }
-    public void setVenta(Venta venta) { this.venta = venta; }
-
-    public int getCantidad() { return cantidad; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-
-    public double getPrecio() { return precio; }
-    public void setPrecio(double precio) { this.precio = precio; }
-
-    public double getPrecioTotal() { return precioTotal; }
-}
-
-// Repositorio DetalleVenta
-interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long> {
-    List<DetalleVenta> findByVentaId(Long idVenta);
-}
-
-// Servicio DetalleVenta
-@Service
-class DetalleVentaService {
-
-    @Autowired
-    private DetalleVentaRepository detalleVentaRepository;
-
-    public List<DetalleVenta> obtenerDetallesPorVenta(Long idVenta) {
-        return detalleVentaRepository.findByVentaId(idVenta);
+    public Long getIdDetalleVenta() {
+        return idDetalleVenta;
     }
-}
 
-// Controlador DetalleVenta
-@RestController
-@RequestMapping("/api/detalle-venta")
-class DetalleVentaController {
+    public void setIdDetalleVenta(Long idDetalleVenta) {
+        this.idDetalleVenta = idDetalleVenta;
+    }
 
-    @Autowired
-    private DetalleVentaService detalleVentaService;
+    public Producto getProducto() {
+        return producto;
+    }
 
-    @GetMapping("/{idVenta}")
-    public List<DetalleVenta> obtenerDetalles(@PathVariable Long idVenta) {
-        return detalleVentaService.obtenerDetallesPorVenta(idVenta);
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+        calcularTotal();
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+        calcularTotal();
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
     }
 }

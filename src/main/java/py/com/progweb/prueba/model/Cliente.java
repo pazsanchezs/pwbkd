@@ -1,9 +1,7 @@
 package py.com.progweb.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Cliente {
@@ -11,13 +9,16 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCliente;
-    
+
     private String nombre;
     private String apellido;
     private String cedula;
     private String email;
 
-    // Getters y setters
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Venta> ventas; // Relación con Venta
+
+    // Getters y Setters
     public Long getIdCliente() {
         return idCliente;
     }
@@ -56,5 +57,13 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Venta> getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(List<Venta> ventas) {
+        this.ventas = ventas;
     }
 }

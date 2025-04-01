@@ -1,1 +1,9 @@
+py\com\progweb\model\DetalleVenta.class
+py\com\progweb\service\DetalleVentaService.class
+py\com\progweb\repository\DetalleVentaRepository.class
+py\com\progweb\model\Categoria.class
+py\com\progweb\controller\DetalleVentaController.class
+py\com\progweb\model\Producto.class
+py\com\progweb\model\Cliente.class
+py\com\progweb\model\Venta.class
 py\com\progweb\prueba\rest\ApplicationConfig.class

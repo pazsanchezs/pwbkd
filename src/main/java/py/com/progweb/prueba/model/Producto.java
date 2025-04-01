@@ -1,11 +1,7 @@
 package py.com.progweb.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Producto {
@@ -13,17 +9,20 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProducto;
-    
+
     private String nombre;
-    
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
-    
+
     private double precioVenta;
     private int cantidadExistente;
 
-    // Getters y setters
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DetalleVenta> detallesVenta; // Relación con DetalleVenta
+
+    // Getters y Setters
     public Long getIdProducto() {
         return idProducto;
     }
@@ -62,5 +61,13 @@ public class Producto {
 
     public void setCantidadExistente(int cantidadExistente) {
         this.cantidadExistente = cantidadExistente;
+    }
+
+    public List<DetalleVenta> getDetallesVenta() {
+        return detallesVenta;
+    }
+
+    public void setDetallesVenta(List<DetalleVenta> detallesVenta) {
+        this.detallesVenta = detallesVenta;
     }
 }

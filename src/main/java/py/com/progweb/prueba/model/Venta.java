@@ -1,11 +1,6 @@
 package py.com.progweb.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,16 +10,19 @@ public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVenta;
-    
+
     private LocalDate fecha;
-    
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idCliente")
     private Cliente cliente;
-    
+
     private double total;
 
-    // Getters y setters
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DetalleVenta> detallesVenta; // Relación con DetalleVenta
+
+    // Getters y Setters
     public Long getIdVenta() {
         return idVenta;
     }
@@ -55,5 +53,13 @@ public class Venta {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public List<DetalleVenta> getDetallesVenta() {
+        return detallesVenta;
+    }
+
+    public void setDetallesVenta(List<DetalleVenta> detallesVenta) {
+        this.detallesVenta = detallesVenta;
     }
 }

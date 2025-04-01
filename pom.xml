@@ -1,104 +1,99 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>py.com.progweb</groupId>
-	<artifactId>prueba</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<repositories>
-    <repository>
-        <id>jboss-public-repository-group</id>
-        <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-    </repository>
-</repositories>
-	<dependencies>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
-			
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.0.1.Final</version>
-		
-			
-		</dependency>
-		<dependency>
-   <groupId>dom4j</groupId>
-   <artifactId>dom4j</artifactId>
-   <version>1.6.1</version>
-   <scope>provided</scope>
-</dependency>
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>1.0-SP4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<version>1.0.2.Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.as</groupId>
-			<artifactId>jboss-as-ejb3</artifactId>
-			<version>7.1.0.CR1</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>1.0-SP4</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.2.3</version>
-			<scope>provided</scope>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>2.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.ws.rs</groupId>
-			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
-			<version>1.0.1.Final</version>
-		</dependency>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
+    <groupId>py.com.progweb</groupId>
+    <artifactId>prueba</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging> <!-- Mantenemos el empaquetado WAR para desplegar en WildFly -->
 
-	</dependencies>
-	<build>
+    <properties>
+        <!-- Definición de la versión de Java y Spring Boot -->
+        <java.version>11</java.version>
+        <spring.boot.version>2.7.6</spring.boot.version> <!-- Añadido la versión de Spring Boot -->
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Dependencia de Spring Boot Starter Web (para crear una API REST) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version> <!-- Usando la propiedad de la versión -->
+        </dependency>
+
+        <!-- Dependencia de Spring Boot Starter Data JPA (para trabajar con JPA y Hibernate) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.boot.version}</version> <!-- Usando la propiedad de la versión -->
+        </dependency>
+
+        <!-- Dependencia de PostgreSQL para la conexión a la base de datos -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.1</version>
+        </dependency>
+
+        <!-- Dependencia de Spring Boot Starter Test (para pruebas) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version> <!-- Usando la propiedad de la versión -->
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dependencia de Spring Boot Starter Actuator (opcional, para monitoreo y métricas) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring.boot.version}</version> <!-- Usando la propiedad de la versión -->
+        </dependency>
+
+        <!-- Dependencia de JAX-RS (para trabajar con servicios RESTful) -->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
         <finalName>prueba</finalName>
+
         <pluginManagement>
-        	<!-- Plugin para deployar la app en l jboss -->
             <plugins>
+                <!-- Plugin de Spring Boot para empaquetar y ejecutar en WildFly -->
                 <plugin>
-                    <groupId>org.jboss.as.plugins</groupId>
-                    <artifactId>jboss-as-maven-plugin</artifactId>
-                    <version>${version.jboss.maven.plugin}</version>
-                    <inherited>true</inherited>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version> <!-- Usando la propiedad de la versión -->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal> <!-- Para empaquetar la aplicación WAR -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Plugin de WildFly para despliegue en el servidor -->
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>2.0.0.Final</version> <!-- Versión estable recomendada -->
                     <configuration>
-                        <skip>true</skip>
+                        <skip>false</skip>
                     </configuration>
                 </plugin>
-                 <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.1.0.Alpha1</version>
-               
-            </plugin>
-            
-        </plugins>
+            </plugins>
         </pluginManagement>
     </build>
 </project>
